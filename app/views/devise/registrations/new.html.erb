@@ -18,14 +18,13 @@
                     required: true,
                     autofocus: true,
                     input_html: { autocomplete: "email" } %>
-        <% role_options = {
-          "Escritório" => "escritorio",
-          "Gerentes" => "gerentes",
-          "Segurança" => "seguranca",
-          "Admin" => "admin"
-        } %>
         <%= f.label :role, "Perfil" %>
-        <%= f.select :role, role_options.to_a, {}, class: "form-control" %>
+        <%= f.select :role,
+            [["Escritório", "escritorio"],
+             ["Gerentes", "gerentes"],
+             ["Segurança", "seguranca"],
+             ["Admin", "admin"]],
+            {}, class: "form-control" %>
         <%= f.input :password,
                     label: "Senha",
                     required: true,
