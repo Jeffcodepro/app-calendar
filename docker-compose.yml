@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16
+    env_file:
+      - .env.production
+    environment:
+      POSTGRES_DB: app_calendar_production
+      POSTGRES_USER: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  web:
+    build: .
+    env_file:
+      - .env.production
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: production
+    volumes:
+      - rails_storage:/rails/storage
+
+volumes:
+  pgdata:
+  rails_storage:

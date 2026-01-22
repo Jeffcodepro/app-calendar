@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["track", "status"];
-  static values = { month: Number, url: String };
+  static values = { month: Number, url: String, userId: Number };
 
   connect() {
     this.load();
@@ -13,6 +13,12 @@ export default class extends Controller {
   }
 
   async load() {
+    const cached = this.readCache();
+    if (cached) {
+      this.render(cached.items || []);
+      return;
+    }
+
     this.setStatus("Carregando destinos...");
     const url = `${this.urlValue}?month=${this.monthValue}`;
 
@@ -21,6 +27,7 @@ export default class extends Controller {
         headers: { Accept: "application/json" },
       });
       const data = await response.json();
+      this.writeCache(data);
       this.render(data.items || []);
     } catch (error) {
       this.setStatus("Nao foi possivel carregar destinos.");
@@ -92,5 +99,31 @@ export default class extends Controller {
   setStatus(message) {
     if (!this.hasStatusTarget) return;
     this.statusTarget.textContent = message;
+  }
+
+  cacheKey() {
+    const userId = this.hasUserIdValue ? this.userIdValue : "guest";
+    return `destinations:${userId}:${this.monthValue}`;
+  }
+
+  readCache() {
+    try {
+      const raw = sessionStorage.getItem(this.cacheKey());
+      if (!raw) return null;
+      const payload = JSON.parse(raw);
+      return payload && Array.isArray(payload.items) ? payload : null;
+    } catch (error) {
+      sessionStorage.removeItem(this.cacheKey());
+      return null;
+    }
+  }
+
+  writeCache(data) {
+    if (!data || !Array.isArray(data.items)) return;
+    try {
+      sessionStorage.setItem(this.cacheKey(), JSON.stringify({ items: data.items }));
+    } catch (error) {
+      // Ignore storage failures (quota, disabled storage, etc).
+    }
   }
 }
