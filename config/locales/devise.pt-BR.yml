@@ -1,0 +1,44 @@
+pt-BR:
+  devise:
+    sessions:
+      signed_in: "Login realizado com sucesso."
+      signed_out: "Logout realizado com sucesso."
+      already_signed_out: "Logout realizado com sucesso."
+    failure:
+      already_authenticated: "Voce ja esta autenticado."
+      inactive: "Sua conta ainda nao foi aprovada."
+      invalid: "Email ou senha invalidos."
+      not_found_in_database: "Email ou senha invalidos."
+      not_approved: "Seu cadastro ainda nao foi aprovado pela administracao."
+      unauthenticated: "Voce precisa entrar ou cadastrar-se para continuar."
+      locked: "Sua conta esta bloqueada."
+      timeout: "Sua sessao expirou. Entre novamente para continuar."
+      last_attempt: "Voce tem mais uma tentativa antes de sua conta ser bloqueada."
+    registrations:
+      signed_up: "Cadastro realizado com sucesso."
+      signed_up_but_inactive: "Cadastro realizado. Aguarde aprovacao da administracao."
+      signed_up_but_not_approved: "Cadastro realizado. Aguarde aprovacao da administracao."
+      signed_up_but_unconfirmed: "Cadastro realizado. Verifique seu email para confirmar."
+      update_needs_confirmation: "Atualizacao realizada. Confirme o novo email."
+      updated: "Conta atualizada com sucesso."
+      destroyed: "Sua conta foi cancelada com sucesso."
+    passwords:
+      send_instructions: "Voce recebera um email com instrucoes para redefinir sua senha."
+      send_paranoid_instructions: "Se o email existir, voce recebera instrucoes para redefinir sua senha."
+      updated_not_active: "Sua senha foi alterada com sucesso."
+      updated: "Sua senha foi alterada com sucesso."
+    confirmations:
+      send_instructions: "Voce recebera um email com instrucoes de confirmacao."
+      send_paranoid_instructions: "Se o email existir, voce recebera instrucoes de confirmacao."
+      confirmed: "Sua conta foi confirmada com sucesso."
+    unlocks:
+      send_instructions: "Voce recebera um email com instrucoes para desbloquear sua conta."
+      send_paranoid_instructions: "Se o email existir, voce recebera instrucoes para desbloquear sua conta."
+      unlocked: "Sua conta foi desbloqueada com sucesso."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucoes de confirmacao"
+      reset_password_instructions:
+        subject: "Instrucoes para redefinir senha"
+      unlock_instructions:
+        subject: "Instrucoes para desbloquear conta"

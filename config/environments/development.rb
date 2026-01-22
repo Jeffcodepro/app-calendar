@@ -19,7 +19,18 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if ENV["REDIS_URL"].present?
+    config.action_controller.perform_caching = true
+    config.action_controller.enable_fragment_cache_logging = true
+    config.cache_store = :redis_cache_store, {
+      url: ENV.fetch("REDIS_URL"),
+      connect_timeout: 3,
+      read_timeout: 1.5,
+      write_timeout: 1.5,
+      reconnect_attempts: 1,
+      pool: false
+    }
+  elsif Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
@@ -58,6 +69,7 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+  config.active_job.queue_adapter = :good_job
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
@@ -73,4 +85,30 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  if ENV["SMTP_ADDRESS"].present?
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.delivery_method = :smtp
+    smtp_verify_none = ENV.fetch("SMTP_INSECURE_SSL", "false") == "true"
+    config.action_mailer.smtp_settings = {
+      address: ENV.fetch("SMTP_ADDRESS"),
+      port: ENV.fetch("SMTP_PORT", 587),
+      domain: ENV.fetch("SMTP_DOMAIN", "gmail.com"),
+      user_name: ENV.fetch("SMTP_USERNAME"),
+      password: ENV.fetch("SMTP_PASSWORD"),
+      authentication: ENV.fetch("SMTP_AUTHENTICATION", "plain"),
+      enable_starttls_auto: ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO", "true") == "true",
+      openssl_verify_mode: smtp_verify_none ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER,
+      ssl_context_params: smtp_verify_none ? {} : {
+        ca_file: ENV["SSL_CERT_FILE"],
+        ca_path: ENV["SSL_CERT_DIR"]
+      }.compact
+    }
+  end
+
+  config.hosts << "0a34cddb21f9.ngrok-free.app"
+  config.hosts << "0c4b222d40de.ngrok-free.app"
 end

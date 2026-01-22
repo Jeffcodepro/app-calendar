@@ -1,0 +1,31 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-card__header">
+      <p class="auth-card__kicker">Recuperacao</p>
+      <h2 class="auth-card__title">Esqueci a senha</h2>
+      <p class="auth-card__subtitle">Enviaremos um link para redefinir sua senha.</p>
+    </div>
+
+    <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "auth-card__form" }) do |f| %>
+      <%= f.error_notification class: "alert alert-warning",
+                               data: { controller: "flash", flash_timeout_value: 8000 } %>
+
+      <div class="form-inputs">
+        <%= f.input :email,
+                    label: "Email",
+                    required: true,
+                    autofocus: true,
+                    input_html: { autocomplete: "email" } %>
+      </div>
+
+      <div class="auth-card__actions auth-card__actions--row">
+        <%= f.button :submit, "Enviar link", class: "auth-card__button" %>
+        <%= link_to "Voltar ao login", new_session_path(resource_name), class: "auth-card__button auth-card__button--ghost" %>
+      </div>
+    <% end %>
+
+    <div class="auth-card__links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="profile-page">
+  <div class="profile-card">
+    <div class="profile-card__header">
+      <p class="profile-card__kicker">Perfil</p>
+      <h2 class="profile-card__title">Dados da conta</h2>
+      <p class="profile-card__subtitle">Atualize seu e-mail e senha com seguranca.</p>
+    </div>
+
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "profile-card__form", data: { controller: "password-toggle" } }) do |f| %>
+      <%= f.error_notification class: "alert alert-warning",
+                               data: { controller: "flash", flash_timeout_value: 8000 } %>
+
+      <div class="form-inputs">
+        <%= f.input :email, label: "E-mail", required: true, autofocus: true %>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p>Confirmacao pendente para: <%= resource.unconfirmed_email %></p>
+        <% end %>
+
+        <%= f.input :password,
+                    label: "Senha",
+                    hint: "deixe em branco se nao quiser trocar",
+                    required: false,
+                    input_html: { autocomplete: "new-password", data: { "password-toggle-target": "input" } } %>
+        <%= f.input :password_confirmation,
+                    label: "Confirmar senha",
+                    required: false,
+                    input_html: { autocomplete: "new-password", data: { "password-toggle-target": "input" } } %>
+        <div class="profile-card__toggle">
+          <label>
+            <input type="checkbox" data-action="password-toggle#toggle">
+            Mostrar senha
+          </label>
+        </div>
+        <%= f.input :current_password,
+                    label: "Senha atual",
+                    hint: "precisamos da senha atual para confirmar",
+                    required: true,
+                    input_html: { autocomplete: "current-password" } %>
+      </div>
+
+      <div class="profile-card__actions">
+        <%= f.button :submit, "Salvar alteracoes", class: "profile-card__button" %>
+      </div>
+    <% end %>
+
+    <div class="profile-card__danger">
+      <h3>Encerrar conta</h3>
+      <p>Esta acao e permanente e remove seu acesso.</p>
+      <div class="profile-card__danger-actions">
+        <%= button_to "Cancelar minha conta",
+              registration_path(resource_name),
+              data: { confirm: "Tem certeza?", turbo_confirm: "Tem certeza?" },
+              method: :delete,
+              class: "profile-card__button profile-card__button--ghost" %>
+        <%= link_to "Voltar", :back, class: "profile-card__back" %>
+      </div>
+    </div>
+
+  </div>
+</div>

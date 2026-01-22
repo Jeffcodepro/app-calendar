@@ -1,0 +1,307 @@
+.vacation-calendar {
+  --calendar-bg: #f7f3ea;
+  --calendar-ink: #1f1f1f;
+  --calendar-muted: #6b6b6b;
+  --calendar-card: #ffffff;
+  --calendar-accent: #e9b949;
+  background: radial-gradient(circle at top left, #fff7e1 0%, var(--calendar-bg) 55%);
+  padding: 2.5rem 6vw 4rem;
+  color: var(--calendar-ink);
+}
+
+.vacation-calendar__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.vacation-calendar__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: "Nunito", "Helvetica", sans-serif;
+}
+
+.vacation-calendar__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.vacation-calendar__nav--spread {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.vacation-calendar__nav-button {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--calendar-card);
+  color: var(--calendar-ink);
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vacation-calendar__nav-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+}
+
+.vacation-calendar__month {
+  flex: 1;
+  font-weight: 600;
+  min-width: 160px;
+  text-align: center;
+}
+
+.vacation-calendar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.vacation-calendar__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vacation-calendar__legend-item::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #ced4da;
+}
+
+.vacation-calendar__legend-item--pending::before {
+  background: #f59f00;
+}
+
+.vacation-calendar__legend-item--approved::before {
+  background: #2f9e44;
+}
+
+.vacation-calendar__legend-item--rejected::before {
+  background: #e03131;
+}
+
+.vacation-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.vacation-calendar__weekday {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--calendar-muted);
+}
+
+.vacation-calendar__day {
+  position: relative;
+  background: var(--calendar-card);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  min-height: 110px;
+  padding: 0.5rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vacation-calendar__day:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.vacation-calendar__day.is-outside {
+  background: rgba(255, 255, 255, 0.5);
+  color: #adb5bd;
+}
+
+.vacation-calendar__day.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.vacation-calendar__day.is-disabled:hover {
+  border-color: #dee2e6;
+  box-shadow: none;
+}
+
+.vacation-calendar__day-number {
+  font-weight: 600;
+}
+
+.vacation-calendar__day.is-selected {
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.vacation-calendar__day.is-range-start,
+.vacation-calendar__day.is-range-end {
+  background: #fff;
+}
+
+.vacation-calendar__day.is-selected::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 10px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--calendar-accent);
+  opacity: 0.85;
+}
+
+.vacation-calendar__bands {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  max-height: 70px;
+  overflow: hidden;
+}
+
+.vacation-calendar__band {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 999px;
+  color: #fff;
+  background: #adb5bd;
+}
+
+.vacation-calendar__band--pending {
+  background: #f59f00;
+}
+
+.vacation-calendar__band--approved {
+  background: #2f9e44;
+}
+
+.vacation-calendar__band--rejected {
+  background: #e03131;
+}
+
+.vacation-calendar__panel {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: var(--calendar-card);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
+}
+
+.vacation-calendar__panel-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.vacation-calendar__panel-title--center {
+  text-align: center;
+}
+
+.vacation-calendar__selection {
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.vacation-calendar__balance {
+  margin-bottom: 1rem;
+  color: var(--calendar-muted);
+  text-align: center;
+}
+
+.vacation-calendar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vacation-calendar__button {
+  border: none;
+  background: var(--calendar-ink);
+  color: #fff;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vacation-calendar__button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
+}
+
+.vacation-calendar__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.vacation-calendar__button--ghost {
+  background: transparent;
+  color: var(--calendar-ink);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .vacation-calendar {
+    padding: 1.5rem 1rem;
+  }
+
+  .vacation-calendar__nav--spread {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vacation-calendar__nav-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .vacation-calendar__month {
+    order: -1;
+    width: 100%;
+  }
+
+  .vacation-calendar__grid {
+    gap: 0.35rem;
+  }
+
+  .vacation-calendar__day {
+    min-height: 90px;
+  }
+
+  .vacation-calendar__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vacation-calendar__button {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,30 @@
+<div class="profile-page">
+  <div class="profile-card">
+    <div class="profile-card__header">
+      <p class="profile-card__kicker">Admin</p>
+      <h2 class="profile-card__title">Editar usuário</h2>
+      <p class="profile-card__subtitle"><%= @user.email %></p>
+    </div>
+
+    <%= simple_form_for([:admin, @user], html: { class: "profile-card__form" }) do |f| %>
+      <%= f.error_notification class: "alert alert-warning",
+                               data: { controller: "flash", flash_timeout_value: 8000 } %>
+
+      <div class="form-inputs">
+        <%= f.input :role, collection: User.roles.keys, required: true %>
+        <%= f.input :password,
+                    hint: "preencha apenas se quiser trocar",
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation,
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+      </div>
+
+      <div class="profile-card__actions profile-card__actions--row">
+        <%= f.button :submit, "Salvar alterações", class: "profile-card__button" %>
+        <%= link_to "Voltar", admin_users_path, class: "profile-card__button profile-card__button--ghost" %>
+      </div>
+    <% end %>
+  </div>
+</div>

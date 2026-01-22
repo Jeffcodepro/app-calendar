@@ -1,0 +1,28 @@
+pt-BR:
+  date:
+    month_names:
+      - ~
+      - janeiro
+      - fevereiro
+      - março
+      - abril
+      - maio
+      - junho
+      - julho
+      - agosto
+      - setembro
+      - outubro
+      - novembro
+      - dezembro
+  errors:
+    messages:
+      taken: "já está em uso"
+  activerecord:
+    errors:
+      messages:
+        taken: "já está em uso"
+      models:
+        user:
+          attributes:
+            email:
+              taken: "já está em uso"

@@ -1,0 +1,40 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-card__header">
+      <p class="auth-card__kicker">Acesso</p>
+      <h2 class="auth-card__title">Entrar</h2>
+      <p class="auth-card__subtitle">Use seu email e senha para continuar.</p>
+    </div>
+
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth-card__form", data: { controller: "password-toggle" } }) do |f| %>
+      <div class="form-inputs">
+        <%= f.input :email,
+                    label: "Email",
+                    required: false,
+                    autofocus: true,
+                    input_html: { autocomplete: "email" } %>
+        <%= f.input :password,
+                    label: "Senha",
+                    required: false,
+                    input_html: { autocomplete: "current-password", data: { "password-toggle-target": "input" } } %>
+        <div class="auth-card__toggle">
+          <label>
+            <input type="checkbox" data-action="password-toggle#toggle">
+            Mostrar senha
+          </label>
+        </div>
+      </div>
+
+      <div class="auth-card__actions auth-card__actions--row">
+        <%= f.button :submit, "Entrar", class: "auth-card__button" %>
+        <% if devise_mapping.registerable? %>
+          <%= link_to "Criar conta", new_registration_path(resource_name), class: "auth-card__button auth-card__button--ghost" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="auth-card__links text-center">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

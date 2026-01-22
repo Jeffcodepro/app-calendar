@@ -1,0 +1,14 @@
+<div class="container py-4">
+  <h1 class="mb-3">Solicitacao de ferias</h1>
+
+  <dl class="row">
+    <dt class="col-sm-3">Usuario</dt>
+    <dd class="col-sm-9"><%= @vacation_request.user.email %></dd>
+    <dt class="col-sm-3">Periodo</dt>
+    <dd class="col-sm-9"><%= @vacation_request.period_label %></dd>
+    <dt class="col-sm-3">Status</dt>
+    <dd class="col-sm-9"><%= @vacation_request.status_label %></dd>
+  </dl>
+
+  <%= link_to "Voltar", admin_vacation_requests_path, class: "btn btn-outline-secondary" %>
+</div>

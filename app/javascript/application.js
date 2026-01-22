@@ -3,3 +3,12 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
+
+document.addEventListener("turbo:load", () => {
+  document.querySelectorAll(".alert").forEach((alert) => {
+    window.setTimeout(() => {
+      const instance = bootstrap.Alert.getOrCreateInstance(alert)
+      instance.close()
+    }, 4000)
+  })
+})

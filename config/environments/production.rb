@@ -65,10 +65,19 @@ Rails.application.configure do
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  if ENV["REDIS_URL"].present?
+    config.cache_store = :redis_cache_store, {
+      url: ENV.fetch("REDIS_URL"),
+      connect_timeout: 3,
+      read_timeout: 1.5,
+      write_timeout: 1.5,
+      reconnect_attempts: 1,
+      pool: false
+    }
+  end
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
+  config.active_job.queue_adapter = :good_job
   # config.active_job.queue_name_prefix = "app_calendar_production"
 
   config.action_mailer.perform_caching = false

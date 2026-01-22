@@ -1,0 +1,108 @@
+<div class="dashboard">
+  <section class="dashboard-hero">
+    <div class="dashboard-hero__intro">
+      <p class="dashboard-hero__kicker">Painel</p>
+      <h1 class="dashboard-hero__title">Suas férias, do jeito certo.</h1>
+      <p class="dashboard-hero__subtitle">
+        Acompanhe o tempo restante, o período aprovado e ideias para a sua próxima viagem.
+      </p>
+    </div>
+
+    <div class="dashboard-metrics">
+      <div class="dashboard-metric">
+        <p class="dashboard-metric__label">Faltam</p>
+        <p class="dashboard-metric__value">
+          <% if @vacation_countdown_days %>
+            <span><%= @vacation_countdown_days %></span> dias
+          <% else %>
+            <span>--</span>
+          <% end %>
+        </p>
+        <p class="dashboard-metric__hint">para suas próximas férias</p>
+      </div>
+
+      <div class="dashboard-metric">
+        <p class="dashboard-metric__label">Período</p>
+        <p class="dashboard-metric__value">
+          <% if @next_vacation %>
+            <span><%= @next_vacation.start_date.strftime("%d/%m/%Y") %></span> a <span><%= @next_vacation.end_date.strftime("%d/%m/%Y") %></span>
+          <% else %>
+            <span>Sem férias aprovadas</span>
+          <% end %>
+        </p>
+        <p class="dashboard-metric__hint">
+          <% if @vacation_duration_days %>
+            <%= @vacation_duration_days %> dias de descanso
+          <% else %>
+            Solicite seu período no calendário
+          <% end %>
+        </p>
+      </div>
+
+      <div class="dashboard-metric">
+        <p class="dashboard-metric__label">Status</p>
+        <p class="dashboard-metric__value">
+          <% if @next_vacation %>
+            <span>Aprovado</span>
+          <% else %>
+            <span>Pendente</span>
+          <% end %>
+        </p>
+        <p class="dashboard-metric__hint">
+          <% if @next_vacation %>
+            Planeje sua viagem com antecedência
+          <% else %>
+            Aguarde a aprovação do admin
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <% if current_user.admin? %>
+    <section class="dashboard-admin">
+      <p class="dashboard-admin__label">Usuários pendentes</p>
+      <p class="dashboard-admin__value"><%= @pending_users_count %></p>
+      <p class="dashboard-admin__hint">Aguardando aprovação de acesso</p>
+    </section>
+  <% end %>
+
+  <section class="dashboard-upcoming">
+    <div class="dashboard-upcoming__header">
+      <h2 class="dashboard-section__title">Próximas férias do grupo</h2>
+      <p class="dashboard-section__subtitle">Visualize quem ja confirmou o período.</p>
+    </div>
+
+    <div class="dashboard-upcoming__list">
+      <% @vacation_requests.each do |vr| %>
+        <div class="dashboard-upcoming__item">
+          <div>
+            <p class="dashboard-upcoming__name"><%= vr.user.email %></p>
+            <p class="dashboard-upcoming__dates"><%= vr.period_label %></p>
+          </div>
+          <span class="dashboard-upcoming__badge"><%= vr.status_label %></span>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="dashboard-cards">
+    <div class="dashboard-cards__header">
+      <h2 class="dashboard-section__title">Destinos para sua temporada</h2>
+      <p class="dashboard-section__subtitle">
+        Em breve vamos buscar os melhores destinos nacionais e internacionais.
+      </p>
+    </div>
+
+    <div
+      class="dashboard-carousel"
+      data-controller="dashboard-carousel"
+      data-dashboard-carousel-month-value="<%= @destinations_month %>"
+      data-dashboard-carousel-url-value="<%= api_destinations_path %>">
+      <div class="dashboard-carousel__track" data-dashboard-carousel-target="track"></div>
+      <p class="dashboard-carousel__status" data-dashboard-carousel-target="status">
+        Carregando destinos...
+      </p>
+    </div>
+  </section>
+</div>

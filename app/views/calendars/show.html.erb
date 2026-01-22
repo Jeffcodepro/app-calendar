@@ -1,0 +1,81 @@
+<div
+  class="vacation-calendar"
+  data-controller="vacation-calendar"
+  data-vacation-calendar-remaining-days-value="<%= @remaining_vacation_days %>">
+  <div class="vacation-calendar__header">
+    <h1 class="vacation-calendar__title text-center">Calendário de Férias</h1>
+
+    <div class="vacation-calendar__nav vacation-calendar__nav--spread">
+      <% previous_month = @current_month.prev_month %>
+      <% next_month = @current_month.next_month %>
+      <%= link_to "Anterior",
+            calendar_path(month: previous_month.month, year: previous_month.year, grupo: current_user.role, start_date: @vacation_request.start_date, end_date: @vacation_request.end_date),
+            class: "vacation-calendar__nav-button",
+            data: { "vacation-calendar-target": "prevLink" } %>
+      <span class="vacation-calendar__month">
+        <%= I18n.l(@current_month, format: "%B %Y") %>
+      </span>
+      <%= link_to "Proximo",
+            calendar_path(month: next_month.month, year: next_month.year, grupo: current_user.role, start_date: @vacation_request.start_date, end_date: @vacation_request.end_date),
+            class: "vacation-calendar__nav-button",
+            data: { "vacation-calendar-target": "nextLink" } %>
+    </div>
+  </div>
+
+  <div class="vacation-calendar__legend container">
+    <span class="vacation-calendar__legend-item vacation-calendar__legend-item--pending">Pendente</span>
+    <span class="vacation-calendar__legend-item vacation-calendar__legend-item--approved">Aprovado</span>
+    <span class="vacation-calendar__legend-item vacation-calendar__legend-item--rejected">Recusado</span>
+  </div>
+
+  <div class="vacation-calendar__grid">
+    <% ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].each do |day_name| %>
+      <div class="vacation-calendar__weekday"><%= day_name %></div>
+    <% end %>
+
+    <% @calendar_days.each do |day| %>
+      <% in_current_month = day.month == @current_month.month %>
+      <% disabled = day < Date.current %>
+      <button
+        type="button"
+        class="vacation-calendar__day <%= 'is-outside' unless in_current_month %> <%= 'is-disabled' if disabled %>"
+        data-vacation-calendar-target="day"
+        data-action="click->vacation-calendar#select"
+        data-date="<%= day.iso8601 %>"
+        data-disabled="<%= disabled %>">
+        <span class="vacation-calendar__day-number"><%= day.day %></span>
+
+        <div class="vacation-calendar__bands">
+          <% @vacation_requests.select { |request| (request.start_date..request.end_date).cover?(day) }.each do |request| %>
+            <span class="vacation-calendar__band vacation-calendar__band--<%= request.status %>">
+              <%= request.user.display_name %>
+            </span>
+          <% end %>
+        </div>
+      </button>
+    <% end %>
+  </div>
+
+  <div class="vacation-calendar__panel">
+    <h2 class="vacation-calendar__panel-title vacation-calendar__panel-title--center">Selecione suas datas de férias</h2>
+
+    <div class="vacation-calendar__selection" data-vacation-calendar-target="rangeLabel">
+      Nenhuma data selecionada ainda.
+    </div>
+    <div class="vacation-calendar__balance">
+      Dias disponiveis: <strong><%= @remaining_vacation_days %></strong>
+    </div>
+
+    <%= form_with model: @vacation_request, url: vacation_requests_path, class: "vacation-calendar__form" do |form| %>
+      <%= form.hidden_field :start_date, data: { "vacation-calendar-target": "startDate" } %>
+      <%= form.hidden_field :end_date, data: { "vacation-calendar-target": "endDate" } %>
+
+    <div class="vacation-calendar__actions">
+      <button type="button" class="vacation-calendar__button vacation-calendar__button--ghost" data-action="vacation-calendar#clear">
+        Limpar seleção
+      </button>
+      <%= form.submit "Enviar para aprovação", class: "vacation-calendar__button", data: { "vacation-calendar-target": "submitButton" } %>
+    </div>
+  <% end %>
+  </div>
+</div>

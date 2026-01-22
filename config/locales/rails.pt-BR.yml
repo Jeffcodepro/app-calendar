@@ -1,0 +1,39 @@
+pt-BR:
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: "deve ser aceito"
+      blank: "nao pode ficar em branco"
+      confirmation: "nao confere"
+      empty: "nao pode ficar vazio"
+      equal_to: "deve ser igual a %{count}"
+      even: "deve ser par"
+      exclusion: "nao esta disponivel"
+      greater_than: "deve ser maior que %{count}"
+      greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
+      inclusion: "nao esta incluido na lista"
+      invalid: "nao e valido"
+      less_than: "deve ser menor que %{count}"
+      less_than_or_equal_to: "deve ser menor ou igual a %{count}"
+      not_a_number: "nao e um numero"
+      odd: "deve ser impar"
+      other_than: "deve ser diferente de %{count}"
+      present: "deve ficar em branco"
+      required: "deve existir"
+      taken: "ja esta em uso"
+      too_long: "e muito longo (maximo %{count} caracteres)"
+      too_short: "e muito curto (minimo %{count} caracteres)"
+      wrong_length: "tamanho incorreto (deve ter %{count} caracteres)"
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "A validacao falhou: %{errors}"
+    attributes:
+      user:
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmar senha"
+        current_password: "Senha atual"
+        first_name: "Nome"
+        last_name: "Sobrenome"
+        role: "Perfil"
