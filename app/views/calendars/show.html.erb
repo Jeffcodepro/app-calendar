@@ -8,17 +8,21 @@
     <div class="vacation-calendar__nav vacation-calendar__nav--spread">
       <% previous_month = @current_month.prev_month %>
       <% next_month = @current_month.next_month %>
-      <%= link_to "Anterior",
-            calendar_path(month: previous_month.month, year: previous_month.year, grupo: current_user.role, start_date: @vacation_request.start_date, end_date: @vacation_request.end_date),
+      <%= link_to calendar_path(month: previous_month.month, year: previous_month.year, grupo: current_user.role, start_date: @vacation_request.start_date, end_date: @vacation_request.end_date),
             class: "vacation-calendar__nav-button",
-            data: { "vacation-calendar-target": "prevLink" } %>
+            data: { "vacation-calendar-target": "prevLink" } do %>
+        <span class="vacation-calendar__nav-label">Anterior</span>
+        <span class="vacation-calendar__nav-icon" aria-hidden="true">&larr;</span>
+      <% end %>
       <span class="vacation-calendar__month">
         <%= I18n.l(@current_month, format: "%B %Y") %>
       </span>
-      <%= link_to "Proximo",
-            calendar_path(month: next_month.month, year: next_month.year, grupo: current_user.role, start_date: @vacation_request.start_date, end_date: @vacation_request.end_date),
+      <%= link_to calendar_path(month: next_month.month, year: next_month.year, grupo: current_user.role, start_date: @vacation_request.start_date, end_date: @vacation_request.end_date),
             class: "vacation-calendar__nav-button",
-            data: { "vacation-calendar-target": "nextLink" } %>
+            data: { "vacation-calendar-target": "nextLink" } do %>
+        <span class="vacation-calendar__nav-label">Proximo</span>
+        <span class="vacation-calendar__nav-icon" aria-hidden="true">&rarr;</span>
+      <% end %>
     </div>
   </div>
 
@@ -72,9 +76,15 @@
 
     <div class="vacation-calendar__actions">
       <button type="button" class="vacation-calendar__button vacation-calendar__button--ghost" data-action="vacation-calendar#clear">
-        Limpar seleção
+        <span class="vacation-calendar__button-label">Limpar seleção</span>
+        <span class="vacation-calendar__button-label--mobile">Limpar</span>
       </button>
-      <%= form.submit "Enviar para aprovação", class: "vacation-calendar__button", data: { "vacation-calendar-target": "submitButton" } %>
+      <%= form.button type: "submit",
+            class: "vacation-calendar__button vacation-calendar__button--submit",
+            data: { "vacation-calendar-target": "submitButton" } do %>
+        <span class="vacation-calendar__button-label">Enviar para aprovação</span>
+        <span class="vacation-calendar__button-label--mobile">Enviar</span>
+      <% end %>
     </div>
   <% end %>
   </div>

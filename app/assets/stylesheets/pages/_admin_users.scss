@@ -278,8 +278,27 @@
     text-align: left !important;
   }
 
+  .admin-users__card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .admin-users__card-actions[data-actions-count="1"] {
+    justify-content: center;
+  }
+
+  .admin-users__card-actions[data-actions-count="2"] {
+    justify-content: space-between;
+  }
+
   .admin-users__button {
     margin-left: 0;
     margin-right: 0.35rem;
+  }
+
+  .admin-users__card-actions .admin-users__button {
+    margin-right: 0;
   }
 }

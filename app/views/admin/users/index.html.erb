@@ -28,7 +28,9 @@
                 <td><%= user.display_name %></td>
                 <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
                 <td class="text-end">
-                  <%= link_to "Aprovar", approve_admin_user_path(user), data: { turbo_method: :patch }, class: "admin-users__button admin-users__button--primary" %>
+                  <div class="admin-users__card-actions" data-actions-count="1">
+                    <%= link_to "Aprovar", approve_admin_user_path(user), data: { turbo_method: :patch }, class: "admin-users__button admin-users__button--primary" %>
+                  </div>
                 </td>
               </tr>
             <% end %>
@@ -63,8 +65,10 @@
                 <td><%= request.period_label %></td>
                 <td><span class="admin-users__badge"><%= request.status_label %></span></td>
                 <td class="text-end">
-                  <%= link_to "Aprovar", approve_admin_vacation_request_path(request), data: { turbo_method: :patch }, class: "admin-users__button admin-users__button--primary" %>
-                  <%= link_to "Recusar", reject_admin_vacation_request_path(request), data: { turbo_method: :patch }, class: "admin-users__button admin-users__button--ghost" %>
+                  <div class="admin-users__card-actions" data-actions-count="2">
+                    <%= link_to "Aprovar", approve_admin_vacation_request_path(request), data: { turbo_method: :patch }, class: "admin-users__button admin-users__button--primary" %>
+                    <%= link_to "Recusar", reject_admin_vacation_request_path(request), data: { turbo_method: :patch }, class: "admin-users__button admin-users__button--ghost" %>
+                  </div>
                 </td>
               </tr>
             <% end %>
@@ -104,13 +108,15 @@
                 <td><%= request.end_date.strftime("%d/%m/%Y") %></td>
                 <td><span class="admin-users__badge"><%= request.status_label %></span></td>
                 <td class="text-end">
-                  <% if request.start_date > Date.current %>
-                    <%= link_to "Excluir", admin_vacation_request_path(request),
-                          data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" },
-                          class: "admin-users__button admin-users__button--danger" %>
-                  <% else %>
-                    <span class="admin-users__muted">Histórico fechado</span>
-                  <% end %>
+                  <div class="admin-users__card-actions" data-actions-count="1">
+                    <% if request.start_date > Date.current %>
+                      <%= link_to "Excluir", admin_vacation_request_path(request),
+                            data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" },
+                            class: "admin-users__button admin-users__button--danger" %>
+                    <% else %>
+                      <span class="admin-users__muted">Histórico fechado</span>
+                    <% end %>
+                  </div>
                 </td>
               </tr>
             <% end %>
@@ -154,8 +160,10 @@
                 <td><%= user.display_name %></td>
                 <td><%= user.role %></td>
                 <td class="text-end">
-                  <%= link_to "Editar", edit_admin_user_path(user), class: "admin-users__button admin-users__button--ghost" %>
-                  <%= link_to "Excluir", admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" }, class: "admin-users__button admin-users__button--danger" %>
+                  <div class="admin-users__card-actions" data-actions-count="2">
+                    <%= link_to "Editar", edit_admin_user_path(user), class: "admin-users__button admin-users__button--ghost" %>
+                    <%= link_to "Excluir", admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" }, class: "admin-users__button admin-users__button--danger" %>
+                  </div>
                 </td>
               </tr>
             <% end %>
