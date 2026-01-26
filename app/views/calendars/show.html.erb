@@ -27,9 +27,18 @@
   </div>
 
   <div class="vacation-calendar__legend container">
-    <span class="vacation-calendar__legend-item vacation-calendar__legend-item--pending">Pendente</span>
-    <span class="vacation-calendar__legend-item vacation-calendar__legend-item--approved">Aprovado</span>
-    <span class="vacation-calendar__legend-item vacation-calendar__legend-item--rejected">Recusado</span>
+    <div class="vacation-calendar__legend-row">
+      <span class="vacation-calendar__legend-item vacation-calendar__legend-item--pending">Pendente</span>
+      <span class="vacation-calendar__legend-item vacation-calendar__legend-item--approved">Aprovado</span>
+      <span class="vacation-calendar__legend-item vacation-calendar__legend-item--rejected">Recusado</span>
+    </div>
+    <% if current_user.admin? %>
+      <div class="vacation-calendar__legend-row vacation-calendar__legend-row--roles">
+        <span class="vacation-calendar__legend-item vacation-calendar__legend-item--role-gerentes">Gerentes</span>
+        <span class="vacation-calendar__legend-item vacation-calendar__legend-item--role-escritorio">Escritorio</span>
+        <span class="vacation-calendar__legend-item vacation-calendar__legend-item--role-seguranca">Seguranca</span>
+      </div>
+    <% end %>
   </div>
 
   <div class="vacation-calendar__grid">
@@ -51,7 +60,7 @@
 
         <div class="vacation-calendar__bands">
           <% @vacation_requests.select { |request| (request.start_date..request.end_date).cover?(day) }.each do |request| %>
-            <span class="vacation-calendar__band vacation-calendar__band--<%= request.status %>">
+            <span class="vacation-calendar__band vacation-calendar__band--<%= request.status %><%= ' vacation-calendar__band--role-' + request.user.role if current_user.admin? && request.approved? %>">
               <%= request.user.display_name %>
             </span>
           <% end %>

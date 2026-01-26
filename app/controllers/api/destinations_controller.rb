@@ -29,7 +29,7 @@ module Api
           sleep(0.2) if attempt < 2
         end
 
-        description ||= "#{item[:name]} e uma otima escolha para #{month_label}."
+        description ||= "#{item[:name]} esta na lista de destinos recomendados para #{month_label}."
         item[:description] = description
         used_descriptions << description
       end

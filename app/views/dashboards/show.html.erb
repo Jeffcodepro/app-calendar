@@ -77,7 +77,7 @@
       <% @vacation_requests.each do |vr| %>
         <div class="dashboard-upcoming__item">
           <div>
-            <p class="dashboard-upcoming__name"><%= vr.user.email %></p>
+            <p class="dashboard-upcoming__name"><%= vr.user.display_name %></p>
             <p class="dashboard-upcoming__dates"><%= vr.period_label %></p>
           </div>
           <span class="dashboard-upcoming__badge"><%= vr.status_label %></span>

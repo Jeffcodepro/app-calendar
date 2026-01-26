@@ -66,9 +66,16 @@
 
 .vacation-calendar__legend {
   display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.vacation-calendar__legend-row {
+  display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 1rem;
   justify-content: center;
 }
 
@@ -95,6 +102,18 @@
 
 .vacation-calendar__legend-item--approved::before {
   background: #2f9e44;
+}
+
+.vacation-calendar__legend-item--role-gerentes::before {
+  background: #6f42c1;
+}
+
+.vacation-calendar__legend-item--role-escritorio::before {
+  background: #228be6;
+}
+
+.vacation-calendar__legend-item--role-seguranca::before {
+  background: #c0c0c0;
 }
 
 .vacation-calendar__legend-item--rejected::before {
@@ -201,6 +220,18 @@
 
 .vacation-calendar__band--approved {
   background: #2f9e44;
+}
+
+.vacation-calendar__band--role-gerentes {
+  background: linear-gradient(90deg, #2f9e44 0 50%, #6f42c1 50% 100%);
+}
+
+.vacation-calendar__band--role-escritorio {
+  background: linear-gradient(90deg, #2f9e44 0 50%, #228be6 50% 100%);
+}
+
+.vacation-calendar__band--role-seguranca {
+  background: linear-gradient(90deg, #2f9e44 0 50%, #c0c0c0 50% 100%);
 }
 
 .vacation-calendar__band--rejected {

@@ -67,12 +67,12 @@ class Admin::UsersController < Admin::BaseController
 
     package = Axlsx::Package.new
     package.workbook.add_worksheet(name: "Historico") do |sheet|
-      sheet.add_row ["Usuario", "Periodo", "Encerrado em", "Status"]
+      sheet.add_row ["Usuario", "Periodo", "Aprovado em", "Status"]
       history.each do |request|
         sheet.add_row [
           request.user.display_name,
           request.period_label,
-          request.end_date.strftime("%d/%m/%Y"),
+          request.updated_at.strftime("%d/%m/%Y"),
           request.status_label
         ]
       end

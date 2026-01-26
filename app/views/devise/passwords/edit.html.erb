@@ -1,28 +1,45 @@
-<h2>Change your password</h2>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-card__header">
+      <p class="auth-card__kicker">Redefinicao</p>
+      <h2 class="auth-card__title">Crie uma nova senha</h2>
+      <p class="auth-card__subtitle">Escolha uma senha segura para acessar sua conta.</p>
+    </div>
 
-<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification class: "alert alert-warning",
-                           data: { controller: "flash", flash_timeout_value: 8000 } %>
+    <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name),
+          html: { method: :put, class: "auth-card__form", data: { controller: "password-toggle" } }) do |f| %>
+      <%= f.error_notification class: "alert alert-warning",
+                               data: { controller: "flash", flash_timeout_value: 8000 } %>
 
-  <%= f.input :reset_password_token, as: :hidden %>
-  <%= f.full_error :reset_password_token %>
+      <%= f.input :reset_password_token, as: :hidden %>
+      <%= f.full_error :reset_password_token %>
 
-  <div class="form-inputs">
-    <%= f.input :password,
-                label: "New password",
-                required: true,
-                autofocus: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                label: "Confirm your new password",
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+      <div class="form-inputs">
+        <%= f.input :password,
+                    label: "Nova senha",
+                    required: true,
+                    autofocus: true,
+                    hint: ("#{@minimum_password_length} caracteres no minimo" if @minimum_password_length),
+                    input_html: { autocomplete: "new-password", data: { "password-toggle-target": "input" } } %>
+        <%= f.input :password_confirmation,
+                    label: "Confirmar nova senha",
+                    required: true,
+                    input_html: { autocomplete: "new-password", data: { "password-toggle-target": "input" } } %>
+      </div>
+
+      <div class="auth-card__toggle">
+        <input type="checkbox" data-action="password-toggle#toggle">
+        Mostrar senha
+      </div>
+
+      <div class="auth-card__actions auth-card__actions--row">
+        <%= f.button :submit, "Salvar nova senha", class: "auth-card__button" %>
+        <%= link_to "Voltar ao login", new_session_path(resource_name), class: "auth-card__button auth-card__button--ghost" %>
+      </div>
+    <% end %>
+
+    <div class="auth-card__links">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

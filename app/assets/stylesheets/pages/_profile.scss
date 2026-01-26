@@ -141,4 +141,31 @@
   .profile-card {
     padding: 2rem;
   }
+
+  .profile-card__form .form-control,
+  .profile-card__form .form-select {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    border-radius: 14px;
+  }
+
+  .profile-card__actions,
+  .profile-card__danger-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-card__button,
+  .profile-card__back {
+    width: 100%;
+    text-align: center;
+  }
+
+  .profile-card__back {
+    display: inline-flex;
+    justify-content: center;
+    padding: 0.65rem 1.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
 }
