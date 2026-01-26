@@ -18,13 +18,33 @@
                     required: true,
                     autofocus: true,
                     input_html: { autocomplete: "email" } %>
+        <% role_options = [["Escritório", "escritorio"],
+                          ["Gerentes", "gerentes"],
+                          ["Segurança", "seguranca"]] %>
         <%= f.label :role, "Perfil" %>
-        <%= f.select :role,
-            [["Escritório", "escritorio"],
-             ["Gerentes", "gerentes"],
-             ["Segurança", "seguranca"],
-             ["Admin", "admin"]],
-            {}, class: "form-control" %>
+        <div class="select-menu" data-controller="select-menu">
+          <%= f.select :role, role_options, {}, class: "form-control select-menu__native", data: { "select-menu-target": "native" } %>
+          <button type="button"
+                  class="select-menu__button"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  data-action="select-menu#toggle"
+                  data-select-menu-target="button">
+            <span data-select-menu-target="label"></span>
+            <span class="select-menu__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="select-menu__list" role="listbox" data-select-menu-target="list">
+            <% role_options.each do |label, value| %>
+              <button type="button"
+                      class="select-menu__option"
+                      role="option"
+                      data-value="<%= value %>"
+                      data-action="select-menu#choose">
+                <%= label %>
+              </button>
+            <% end %>
+          </div>
+        </div>
         <%= f.input :password,
                     label: "Senha",
                     required: true,
@@ -43,8 +63,8 @@
       </div>
 
       <div class="auth-card__actions auth-card__actions--row">
-        <%= f.button :submit, "Criar conta", class: "auth-card__button" %>
         <%= link_to "Entrar", new_session_path(resource_name), class: "auth-card__button auth-card__button--ghost" %>
+        <%= f.button :submit, "Criar conta", class: "auth-card__button" %>
       </div>
     <% end %>
 

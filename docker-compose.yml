@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   db:
     image: postgres:16
@@ -8,67 +6,22 @@ services:
     environment:
       POSTGRES_DB: app_calendar_production
       POSTGRES_USER: postgres
-      # POSTGRES_PASSWORD vem do .env.production
-      TZ: America/Sao_Paulo
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - DevNet
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d app_calendar_production"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
 
   web:
     build: .
     env_file:
       - .env.production
     depends_on:
-      db:
-        condition: service_healthy
-
-    # ✅ Traefik vai acessar internamente, então não precisa expor porta no host
-    expose:
-      - "3000"
-
+      - db
+    ports:
+      - "3000:3000"
     environment:
       RAILS_ENV: production
-      TZ: America/Sao_Paulo
-
-      # ✅ Rails -> Postgres (serviço "db")
-      DATABASE_URL: "postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/app_calendar_production"
-
-      # (Opcional, mas recomendado em produção)
-      RAILS_LOG_TO_STDOUT: "1"
-      RAILS_SERVE_STATIC_FILES: "1"
-
     volumes:
       - rails_storage:/rails/storage
-
-    networks:
-      - DevNet
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=DevNet"
-
-      - "traefik.http.routers.appcalendar.rule=Host(`appcalendar.dev.globaldevcloud.com`)"
-      - "traefik.http.routers.appcalendar.entrypoints=websecure"
-      - "traefik.http.routers.appcalendar.priority=1"
-      - "traefik.http.routers.appcalendar.tls.certresolver=letsencryptresolver"
-
-      - "traefik.http.services.appcalendar.loadbalancer.server.port=3000"
-      - "traefik.http.services.appcalendar.loadbalancer.passHostHeader=1"
-
-    restart: unless-stopped
 
 volumes:
   pgdata:
   rails_storage:
-
-networks:
-  DevNet:
-    external: true
-    name: DevNet
