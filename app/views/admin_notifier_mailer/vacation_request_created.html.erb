@@ -1,0 +1,23 @@
+<div style="background:#f7f3ea;padding:24px 12px;">
+  <div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:20px;padding:24px;border:1px solid rgba(0,0,0,0.08);font-family:Arial,sans-serif;color:#1f1f1f;">
+    <p style="letter-spacing:0.2em;text-transform:uppercase;color:#6b6b6b;font-size:12px;margin:0 0 8px;">Ferias</p>
+    <h2 style="margin:0 0 12px;font-size:22px;">Nova solicitacao</h2>
+    <p style="margin:0 0 6px;"><strong>Funcionario:</strong> <%= @request.user.display_name %></p>
+    <p style="margin:0 0 6px;"><strong>Email:</strong> <%= @request.user.email %></p>
+    <p style="margin:0 0 16px;"><strong>Periodo:</strong> <%= @request.period_label %></p>
+
+    <p style="margin:0 0 12px;">
+      <a href="<%= @approve_url %>" style="display:inline-block;padding:10px 18px;border-radius:999px;background:#1f1f1f;color:#ffffff;text-decoration:none;font-weight:600;">
+        Aprovar agora
+      </a>
+      <a href="<%= @reject_url %>" style="display:inline-block;padding:10px 18px;border-radius:999px;background:#e03131;color:#ffffff;text-decoration:none;font-weight:600;margin-left:8px;">
+        Recusar agora
+      </a>
+    </p>
+    <p style="margin:0;">
+      <a href="<%= @admin_panel_url %>" style="color:#1f1f1f;text-decoration:underline;font-weight:600;">
+        Abrir painel
+      </a>
+    </p>
+  </div>
+</div>

@@ -42,7 +42,13 @@ class Admin::UsersController < Admin::BaseController
 
   def approve
     @user = User.find(params[:id])
-    @user.update!(approved: true)
+    if @user.approved?
+      redirect_to admin_users_path, alert: "Usuário já aprovado."
+      return
+    end
+
+    @user.update!(approved: true, approved_by: current_user)
+    UserNotifierMailer.user_approved(@user).deliver_later
     redirect_to admin_users_path, notice: "Usuário aprovado."
   end
 

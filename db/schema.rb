@@ -117,6 +117,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_010001) do
     t.boolean "approved", default: false, null: false
     t.string "first_name"
     t.string "last_name"
+    t.bigint "approved_by_id"
+    t.index ["approved_by_id"], name: "index_users_on_approved_by_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -128,9 +130,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_010001) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "approved_by_id"
+    t.bigint "rejected_by_id"
+    t.index ["approved_by_id"], name: "index_vacation_requests_on_approved_by_id"
+    t.index ["rejected_by_id"], name: "index_vacation_requests_on_rejected_by_id"
     t.index ["start_date", "end_date"], name: "index_vacation_requests_on_start_date_and_end_date"
     t.index ["user_id"], name: "index_vacation_requests_on_user_id"
   end
 
+  add_foreign_key "users", "users", column: "approved_by_id"
   add_foreign_key "vacation_requests", "users"
+  add_foreign_key "vacation_requests", "users", column: "approved_by_id"
+  add_foreign_key "vacation_requests", "users", column: "rejected_by_id"
 end

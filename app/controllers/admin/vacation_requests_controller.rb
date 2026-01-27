@@ -20,12 +20,24 @@ module Admin
     end
 
     def approve
-      @vacation_request.update(status: :approved)
+      if @vacation_request.status != "pending"
+        redirect_to admin_users_path, alert: "Solicitacao ja foi processada."
+        return
+      end
+
+      @vacation_request.update(status: :approved, approved_by: current_user)
+      UserNotifierMailer.vacation_request_approved(@vacation_request).deliver_later
       redirect_to admin_users_path, notice: "Solicitacao aprovada."
     end
 
     def reject
-      @vacation_request.update(status: :rejected)
+      if @vacation_request.status != "pending"
+        redirect_to admin_users_path, alert: "Solicitacao ja foi processada."
+        return
+      end
+
+      @vacation_request.update(status: :rejected, rejected_by: current_user)
+      UserNotifierMailer.vacation_request_rejected(@vacation_request).deliver_later
       redirect_to admin_users_path, notice: "Solicitacao recusada."
     end
 

@@ -5,9 +5,11 @@ class NotifyAdminsVacationRequestJob < ApplicationJob
     request = VacationRequest.find_by(id: request_id)
     return unless request
 
-    admin_emails = User.admin.pluck(:email)
-    return if admin_emails.empty?
+    admins = User.admin.to_a
+    return if admins.empty?
 
-    AdminNotifierMailer.vacation_request_created(request, admin_emails).deliver_now
+    admins.each do |admin|
+      AdminNotifierMailer.vacation_request_created(request, admin).deliver_now
+    end
   end
 end

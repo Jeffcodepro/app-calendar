@@ -1,5 +1,7 @@
 class VacationRequest < ApplicationRecord
   belongs_to :user
+  belongs_to :approved_by, class_name: "User", optional: true
+  belongs_to :rejected_by, class_name: "User", optional: true
 
   enum status: { pending: 0, approved: 1, rejected: 2, canceled: 3 }
 

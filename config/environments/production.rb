@@ -21,7 +21,7 @@ Rails.application.configure do
   # config.require_master_key = true
 
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  # config.public_file_server.enabled = false
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -37,7 +37,15 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  storage_service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_s
+  if storage_service == "minio"
+    minio_ready = ENV["MINIO_ENDPOINT"].present? &&
+                  ENV["MINIO_BUCKET"].present? &&
+                  ENV["MINIO_ACCESS_KEY"].present? &&
+                  ENV["MINIO_SECRET_KEY"].present?
+    storage_service = "local" unless minio_ready
+  end
+  config.active_storage.service = storage_service.to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -97,26 +105,43 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
+  app_host = ENV["APP_HOST"]
+  config.hosts << app_host if app_host.present?
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   #
-  if ENV["SMTP_ADDRESS"].present?
+  # --- SMTP / ActionMailer ---
+  smtp_address  = ENV["SMTP_ADDRESS"]
+  smtp_username = ENV["SMTP_USERNAME"]
+  smtp_password = ENV["SMTP_PASSWORD"]
+
+  if smtp_address.present? && smtp_username.present? && smtp_password.present?
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address: ENV["SMTP_ADDRESS"],
+      address: smtp_address,
       port: (ENV["SMTP_PORT"] || "587").to_i,
       domain: ENV["SMTP_DOMAIN"],
-      user_name: ENV["SMTP_USERNAME"],
-      password: ENV["SMTP_PASSWORD"],
+      user_name: smtp_username,
+      password: smtp_password,
       authentication: (ENV["SMTP_AUTHENTICATION"] || "plain").to_sym,
       enable_starttls_auto: (ENV["SMTP_ENABLE_STARTTLS_AUTO"] || "true") == "true"
     }
+    config.action_mailer.default_options = { from: ENV["DEFAULT_FROM_EMAIL"] || smtp_username }
+    config.action_mailer.default_url_options = {
+      host: ENV.fetch("APP_HOST", "localhost"),
+      protocol: ENV.fetch("APP_PROTOCOL", "https")
+    }
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
   else
     config.action_mailer.perform_deliveries = false
+    config.action_mailer.raise_delivery_errors = false
   end
 
+  if app_host.present?
+    config.action_mailer.default_url_options = {
+      host: app_host,
+      protocol: ENV.fetch("APP_PROTOCOL", "https")
+    }
+  end
 end

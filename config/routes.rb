@@ -28,6 +28,10 @@ Rails.application.routes.draw do
       collection { get :export_vacation_history }
     end
 
+    get "email-approvals/users/:token", to: "email_approvals#approve_user", as: :email_approve_user
+    get "email-approvals/ferias/:token/approve", to: "email_approvals#approve_vacation_request", as: :email_approve_vacation_request
+    get "email-approvals/ferias/:token/reject", to: "email_approvals#reject_vacation_request", as: :email_reject_vacation_request
+
     # Admin gerencia solicitações (aprovar/recusar)
     resources :vacation_requests, path: "ferias", only: [:index, :show, :destroy] do
       member do

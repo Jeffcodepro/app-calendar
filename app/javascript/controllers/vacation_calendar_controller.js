@@ -92,20 +92,29 @@ export default class extends Controller {
   rangeLength() {
     if (!this.start || !this.end) return 0
 
-    const startDate = new Date(this.start)
-    const endDate = new Date(this.end)
-    const diff = (endDate - startDate) / (24 * 60 * 60 * 1000)
+    const startDate = this.parseDate(this.start)
+    const endDate = this.parseDate(this.end)
+    const diff =
+      (Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()) -
+        Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())) /
+      (24 * 60 * 60 * 1000)
     return Math.floor(diff) + 1
   }
 
   formatDate(value) {
-    const date = new Date(value)
-    if (Number.isNaN(date.getTime())) return value
-
-    const day = String(date.getDate()).padStart(2, "0")
-    const month = String(date.getMonth() + 1).padStart(2, "0")
-    const year = date.getFullYear()
+    const parts = value.split("-")
+    if (parts.length !== 3) return value
+    const [year, month, day] = parts
     return `${day}/${month}/${year}`
+  }
+
+  parseDate(value) {
+    const parts = value.split("-").map((piece) => Number.parseInt(piece, 10))
+    if (parts.length !== 3 || parts.some((part) => Number.isNaN(part))) {
+      return new Date(value)
+    }
+    const [year, month, day] = parts
+    return new Date(year, month - 1, day)
   }
 
   updateNavLinks() {

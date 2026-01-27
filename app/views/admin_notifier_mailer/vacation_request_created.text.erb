@@ -4,4 +4,6 @@ Funcionario: <%= @request.user.display_name %>
 Email: <%= @request.user.email %>
 Periodo: <%= @request.period_label %>
 
-Acesse o painel para aprovar ou recusar.
+Aprovar agora: <%= @approve_url %>
+Recusar agora: <%= @reject_url %>
+Abrir painel: <%= @admin_panel_url %>

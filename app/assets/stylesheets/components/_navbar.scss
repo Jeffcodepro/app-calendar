@@ -10,3 +10,24 @@
 .navbar-lewagon .navbar-brand img {
   width: 40px;
 }
+
+.navbar-lewagon .nav-link.active {
+  font-weight: 700;
+  position: relative;
+}
+
+.navbar-lewagon .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0.4rem;
+  right: 0.4rem;
+  bottom: 0.2rem;
+  height: 2px;
+  background: #1f1f1f;
+  border-radius: 999px;
+}
+
+.navbar-lewagon .dropdown-item.active {
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.06);
+}

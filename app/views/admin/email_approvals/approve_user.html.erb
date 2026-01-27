@@ -1,0 +1,14 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-card__header">
+      <p class="auth-card__kicker">Aprovacao</p>
+      <h2 class="auth-card__title">Resultado</h2>
+      <p class="auth-card__subtitle"><%= @message %></p>
+    </div>
+
+    <div class="auth-card__actions auth-card__actions--row">
+      <%= link_to "Abrir painel", @panel_url, class: "auth-card__button" %>
+      <%= link_to "Entrar", new_session_path(:user), class: "auth-card__button auth-card__button--ghost" %>
+    </div>
+  </div>
+</div>

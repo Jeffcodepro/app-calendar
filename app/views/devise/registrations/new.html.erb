@@ -11,12 +11,11 @@
                                data: { controller: "flash", flash_timeout_value: 8000 } %>
 
       <div class="form-inputs">
-        <%= f.input :first_name, label: "Nome", required: true, input_html: { autocomplete: "given-name" } %>
+        <%= f.input :first_name, label: "Nome", required: true, input_html: { autocomplete: "given-name", autofocus: true } %>
         <%= f.input :last_name, label: "Sobrenome", required: true, input_html: { autocomplete: "family-name" } %>
         <%= f.input :email,
                     label: "Email",
                     required: true,
-                    autofocus: true,
                     input_html: { autocomplete: "email" } %>
         <% role_options = [["Escritório", "escritorio"],
                           ["Gerentes", "gerentes"],
