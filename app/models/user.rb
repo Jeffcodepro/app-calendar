@@ -13,6 +13,15 @@ class User < ApplicationRecord
     full_name.present? ? full_name : email
   end
 
+  def role_label
+    {
+      "escritorio" => "Escritório",
+      "gerentes" => "Gerentes",
+      "seguranca" => "Segurança",
+      "admin" => "Admin"
+    }[role] || role
+  end
+
   after_commit :notify_admins_on_signup, on: :create
 
   def vacation_days_used(year, exclude_request_id: nil)

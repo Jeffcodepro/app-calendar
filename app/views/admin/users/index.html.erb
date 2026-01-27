@@ -18,6 +18,7 @@
           <thead>
             <tr>
               <th>Usuário</th>
+              <th>Perfil</th>
               <th>Criado em</th>
               <th class="text-end">Ações</th>
             </tr>
@@ -26,6 +27,7 @@
             <% @pending_users.each do |user| %>
               <tr>
                 <td><%= user.display_name %></td>
+                <td><%= user.role_label %></td>
                 <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
                 <td class="text-end">
                   <div class="admin-users__card-actions" data-actions-count="1">
@@ -150,7 +152,7 @@
           <thead>
             <tr>
               <th>Usuário</th>
-              <th>Função</th>
+              <th>Perfil</th>
               <th class="text-end">Ações</th>
             </tr>
           </thead>
@@ -158,7 +160,7 @@
             <% @active_users.each do |user| %>
               <tr>
                 <td><%= user.display_name %></td>
-                <td><%= user.role %></td>
+                <td><%= user.role_label %></td>
                 <td class="text-end">
                   <div class="admin-users__card-actions" data-actions-count="2">
                     <%= link_to "Editar", edit_admin_user_path(user), class: "admin-users__button admin-users__button--ghost" %>
